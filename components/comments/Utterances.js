@@ -14,7 +14,7 @@ const Utterances = () => {
   const COMMENTS_ID = 'comments-container'
 
   const LoadComments = useCallback(() => {
-    setEnabledLoadComments(false)
+    setEnabledLoadComments(true)
     const script = document.createElement('script')
     script.src = 'https://utteranc.es/client.js'
     script.setAttribute('repo', siteMetadata.comment.utterancesConfig.repo)
@@ -36,6 +36,7 @@ const Utterances = () => {
   // Reload on theme change
   useEffect(() => {
     const iframe = document.querySelector('iframe.utterances-frame')
+    LoadComments()
     if (!iframe) return
     LoadComments()
   }, [LoadComments])

@@ -16,7 +16,7 @@ const Giscus = () => {
   const COMMENTS_ID = 'comments-container'
 
   const LoadComments = useCallback(() => {
-    setEnabledLoadComments(false)
+    setEnabledLoadComments(true)
 
     const {
       repo,
@@ -32,16 +32,16 @@ const Giscus = () => {
 
     const script = document.createElement('script')
     script.src = 'https://giscus.app/client.js'
-    script.setAttribute('data-repo', 'ridhamz/mz-blogs')
-    script.setAttribute('data-repo-id', 'R_kgDOIDT2-g')
-    script.setAttribute('data-category', '[ENTER CATEGORY NAME HERE]')
-    script.setAttribute('data-category-id', '[ENTER CATEGORY ID HERE]')
+    script.setAttribute('data-repo', 'ridhamz/mz.dev')
+    script.setAttribute('data-repo-id', 'R_kgDOIW5ykg')
+    script.setAttribute('data-category', 'General')
+    script.setAttribute('data-category-id', 'DIC_kwDOIW5yks4CSVW2')
     script.setAttribute('data-mapping', 'pathname')
     script.setAttribute('data-reactions-enabled', '1')
     script.setAttribute('data-emit-metadata', '1')
     script.setAttribute('data-input-position', 'top')
     script.setAttribute('data-lang', 'en')
-    // script.setAttribute('data-theme', commentsTheme)
+    script.setAttribute('data-theme', commentsTheme)
     script.setAttribute('crossorigin', 'anonymous')
     script.async = true
 
@@ -56,9 +56,9 @@ const Giscus = () => {
 
   // Reload on theme change
   useEffect(() => {
+    LoadComments()
     const iframe = document.querySelector('iframe.giscus-frame')
     if (!iframe) return
-    LoadComments()
   }, [LoadComments])
 
   return (
