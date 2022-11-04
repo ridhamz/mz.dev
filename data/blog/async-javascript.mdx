@@ -1,0 +1,161 @@
+---
+title: Asynchronous JavaScript:Promises and async-await
+date: 'Dec 12, 2021'
+tags: ['javascript']
+draft: false
+summary: ''
+---
+
+# Introduction
+
+Hello community 🙌🏻,
+
+As a JavaScript developer, knowing how to deal with asynchronous operations is an essential skill.
+
+# 1. What are Promises 🤔 ?
+
+Promises are a new feature introduced by ECMAScript 2015 (ES6) that is used to get the result of an asynchronous JavaScript operation like callbacks but in a fancy way.
+
+Technically, a JavaScript promise is an object that returns a value that you hope to receive in the future.
+
+# 2. Promise declaration syntax 🦄
+
+![Maple](/static/images/async-js/0.png)
+
+<center>Promise declaration syntax</center>
+
+Using the Promise Class we can make a promise object that takes a callback function as an argument and this function itself takes two arguments resolve and reject they are two callback functions.
+
+resolve: get executed when the operation is done with success.
+
+reject: get executed when the operation failed.
+
+# 3. Simulation of real call API using Promises ⏳
+
+![Maple](/static/images/js-part2/1.png)
+
+<center>Call API simulation</center>
+
+In the example, above we implemented a simple call API simulation using the facade function setTimeout.
+
+getUserById is a function that takes id as an argument and returns the user if exists, otherwise returns false.
+
+Depending on the result of the getUserById function, if the user exists, we execute the resolve function and pass the user data as an argument or execute the reject function and pass an error message as an argument.
+
+# 4. Promise object status 📉
+
+The promise object has 3 different status depending on the asynchronous operation.
+
+Pending if the asynchronous operation is still not yet done.
+
+resolved if the asynchronous operation was done successfully.
+
+rejected if the asynchronous operation failed.
+
+# 5. Getting the Promise result ✅
+
+Getting the result of a Promise using .then .catch syntax.
+
+![Maple](/static/images/async-js/2.png)
+
+<center>.then .catch syntax</center>
+
+The promise class provides two methods, then used to inject a function when the status is resolved and catch to inject a function when the status is rejected.
+
+Besides that, the Promise class provides a third method called finally that allows us to run a function in both cases resolved or rejected.
+
+![Maple](/static/images/async-js/3.png)
+
+<center>Finally example</center>
+
+# 6. Promise Chaining ⛓️
+
+As we know that every promise object has 3 methods (then, catch, finally) the thing is that every method returns a new promise.
+
+![Maple](/static/images/async-js/4.png)
+
+<center>Promise Chaining Example</center>
+
+In the example above :
+
+- We take the result of the promise with the first method then and return a new promise that resolves a new value: res + 1 (1 + 1)
+- In the second then method, we accept the result of the promise that returns from the first then and returns a new promise by resolving a new value res × 2 (2 × 2)
+- The final result was printed using the third, then method.
+
+Promise Changing is a powerful and clean approach used to manipulate the result of a promise on multiple levels. (it is the same for catch and finally)
+
+# 7. Promise.all() and Promise.race() ⚙️
+
+- Promise.all() : static method takes an array of Promises as an argument and returns a new Promise that resolves the resolved values from all Promises that exists in the array, but if one of these promises is rejected, then the Promise returned is also rejected with an error from the first rejected promise.
+
+![Maple](/static/images/async-js/5.png)
+
+<center>Promise.all() resolve example</center>
+
+![Maple](/static/images/async-js/6.png)
+
+<center>Promise.all() reject example</center>
+
+- Promise.race() : static method takes an array of Promises as an argument and returns a new Promise depending on the first Promise that resolves or rejects from all Promises exists in the array and first means first in time not first in order.
+
+<center>Promise.all() resolve example</center>
+
+![Maple](/static/images/async-js/7.png)
+
+<center>Promise.race() example</center>
+
+# 8. async-await 💎
+
+async-await is a JavaScript feature introduced by ECMAScript 2016 (ES7) in the order to give us more options to deal with asynchronous operations.
+
+async-await built on top of Promises so we can use it to get the result of a promise object also it gives us more clean code and more readable code.
+
+To see the beauty of async-await let’s first refactor our getUserById function
+
+![Maple](/static/images/async-js/8.png)
+
+<center>Refactor getUserById</center>
+
+now let’s see how to get the result of this function using async-await syntax
+
+![Maple](/static/images/async-js/9.png)
+
+<center>async-await syntax</center>
+
+With this approach, we can just get the resolved value cause if the promise rejects we will get nothing so how to handle errors when we use async-await?
+
+The answer is JavaScript try-catch :
+
+![Maple](/static/images/async-js/10.png)
+
+<center>Catch error using try-catch</center>
+
+try-catch is awesome but repeating it with every call of an asynchronous function is a little bit annoying, that is why we need to write a generic function that can handle any other asynchronous function.
+
+![Maple](/static/images/async-js/11.png)
+
+<center>handleAsync function</center>
+
+handleAsync takes an asynchronous callback function and returns an array containing the result and the error.
+
+Using JavaScript destructuring, we can get the values of the result and the error.
+
+![Maple](/static/images/async-js/12.png)
+
+<center>Using handleAsync</center>
+
+we used getResult function cause in JavaScript await is allowed to use only in an async function but if you don’t like to use getResult() you can use an IIFE function (Immediately Invoked Function Expression).
+
+![Maple](/static/images/async-js/13.png)
+
+<center>Using handleAsync in an IIFE function</center>
+
+# 9. Asynchronous operations inside loops 💪🏻
+
+By default, JavaScript loops don’t support asynchronous operations but there is a way to do asynchronous operation inside a loop.
+
+![Maple](/static/images/async-js/14.png)
+
+<center>asynchronous with map</center>
+
+We can do asynchronous operations inside a map by wrapping it with await Promise.all()

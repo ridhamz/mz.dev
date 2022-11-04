@@ -1,0 +1,89 @@
+---
+title: How does javascript work in the background (part 2)
+date: 'Oct 30, 2021'
+tags: ['javascript']
+draft: false
+summary: ''
+---
+
+# Introduction
+
+Hello community 🙌🏻,
+
+This is part 2 of“ How does javascript work in the background” blog series 📒.
+
+Today we will talk about Global memory, Local memory, Scope & Variable Scope, Higher Order functions and one of the most important and powerful javascript concept it is closure.
+
+# 1. Global Memory 🌎
+
+Global memory is where all global variables are stored, it is connected to the global execution context. Every variable or function declared in the global execution context will be stored in the global memory.
+![Maple](/static/images/js-part2/0.png)
+
+In the first reading, javascript will put all variables and functions declaration in the global memory as key-value pairs, the variable count will take the initial value 0 and the function will take the code definition as a value.
+
+# 2. Local Memory 🗺️
+
+Every javascript function has own local memory used to store local variables.
+
+When a function tries to get variable value it looks first in its local memory if the variable doesn’t exist then the function will be searching for it in the global memory.
+
+# 3. Scope & Variable Scope 🔭
+
+The scope is a mechanism used by the language in order to handle the visibility and the access of variables.
+
+There are many types of scope like lexical scope, dynamic scope… however javascript use the lexical scope called also static scope.
+
+The main idea of lexical scope is that child’s function can access any variable declared in the parent context. We can say that functions are lexically bound to the execution context of their parents, but the parent can’t access any variable declared in a child context.
+
+![Maple](/static/images/js-part2/1.png)
+
+In the example above the function calculate can access to a and b but if we try to access the variable sum outside calculate we will get an error ❌ ‘ReferenceError: sum is not defined’ and the same thing if we try to access b outside printSomme.
+
+Another thing you need to know about javascript scope is that inside the same function if there is a variable declared with let or const keyword inside a block {} can’t be accessed outside this block it is called block scope however a variable declared with the keyword var can’t have the block scope.
+
+# 4. Higher-Order functions ⚡
+
+the basic definition is that any function takes another function as an argument or/and returns a function as result called ‘Higher Order function’.
+
+![Maple](/static/images/js-part2/2.png)
+
+<center>Higher Order Function Simple Example</center>
+
+![Maple](/static/images/js-part2/3.png)
+
+<center>Higher Order Function Advanced Example</center>
+
+# 5. Closure 🏆
+
+Closure is when a function remembers the variables around it, even when that function is executed in a different context.
+
+![Maple](/static/images/js-part2/4.png)
+
+<center>getSum execution context</center>
+
+In the example above when the getSum function gets invoked in line 13 javascript will push the function into the call stack and a brain new execution context will be created a and b will be stored in the local memory as key-value pairs.
+
+When the execution of getSum() is done, the brain new execution context and the local memory will be deleted, and the function will be removed from the call stack and the result of that function will be stored in the calc variable.
+
+![Maple](/static/images/js-part2/5.png)
+
+<center>End of getSum execution context</center>
+
+Now calc holds the calculate function that returns the sum of a and b but these two variables don’t exist
+either in the global memory, neither in the local memory of the calculate function, and the getSum function
+is deleted with its local memory. The question is how the calculate function will get the value of these
+two variables a and b?
+
+![Maple](/static/images/js-part2/6.png)
+
+<center>calc execution context</center>
+
+To answer this question we need to know that every function returned, as a result, will take all variables that it needs when will get invoked, these variables are stored in small memory attached to the function called backpack.
+
+![Maple](/static/images/js-part2/7.png)
+
+<center>function backpack</center>
+
+So the idea is to get any variable value the function checks the backpack first if this variable doesn’t exist in the backpack the function will check the local memory if also doesn’t exist then the function will look at the global memory.
+
+We call all this process Closure.
