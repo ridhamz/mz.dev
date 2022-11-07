@@ -9,5 +9,4 @@ linkedin: https://www.linkedin.com/in/ridha-mezrigui-205010177/
 github: https://github.com/ridhamz
 ---
 
-Software Engineer with a balanced range of experience between front-end and back-end.<br/>
-Passionate and highly familiar with JavaScript technologies, and Cloud engineering.
+Software Engineer passionate and highly familiar with JavaScript technologies, and Cloud engineering.
