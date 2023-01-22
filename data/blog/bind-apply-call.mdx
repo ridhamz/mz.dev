@@ -10,61 +10,50 @@ summary: 'learn the difference between this.bind(), this.apply() and this.call()
 
 Hello, community 🙌🏻,
 
-JavaScript uses the keyword this to pass the reference of the parent class to its methods or functions children.
+JavaScript provides several ways to invoke a function, and among them are the methods bind(), call() and apply(). These methods are used to set the value of the this keyword inside a function, and they are particularly useful when working with objects and constructors. In this blog post, we'll take a closer look at each of these methods, how they work, and when to use them.
 
-But sometimes based on the lexical environment that the function gets invoked in the reference of the parent lost
-that's why in some situations we need to bundle the functions with its parent this to insure that this reference will be exist wherever
-place the function gets invoked.
+# 1. bind()
 
-# 1. Thread of execution and Global execution context 💡
+The bind() method creates a new function with a specific value for this. It does not call the function, it just creates a new function with a permanently bound this value. To use bind(), you pass in the value you want this to reference and it returns a new function with the this keyword set to the value you provided.
 
-As we know javascript is a single thread language this is mean that every javascript code executes line by line using Thread of execution, and this process happens inside a container called the global execution context.
+```js
+let obj = {
+  name: 'John',
+  sayName: function () {
+    console.log(this.name)
+  },
+}
 
-![Maple](/static/images/js-part1/1.png)
+let boundSayName = obj.sayName.bind(obj)
+boundSayName() // Output: John
+```
 
-But this global execution context can contain lines of code and also functions, so how can javascript handle this situation?
+In this example, we have an object obj with a property name and a method sayName. We use bind() to create a new function boundSayName that has this set to obj. This means that when we call boundSayName(), this.name will be equal to "John".
 
-The answer is that every function in javascript has its own execution context, when a function gets invoked javascript will create a brain new execution context then the thread of execution will switch from the global execution context to the brain new execution context and starts running function’s code line by line, Javascript manages all the execution contexts with something called Call Stack.
+# 2. call()
 
-# 2. Call Stack (Last In First Out) 🧮
+The call() method is used to call a function with a specific value for this. It also allows you to pass in arguments one by one. To use call(), you pass in the value you want this to reference and the arguments for the function.
 
-By default, the call stack contains the global execution context, when a function gets invoked javascript push it inside the call stack so the thread of execution switch from global to this new execution context, and when the function has done javascript will remove it from the call stack then the thread of execution go back to the global.
-![Maple](/static/images/js-part1/2.png)
+```js
+let obj = { name: 'John' }
+let obj2 = { name: 'Bob' }
 
-In this example when the thread of execution comes to line 7 javascript will figure out that this is not a simple line of code, but it is a function call, so it will push this function into the call stack and create a brain new execution context so the thread of execution switch from the global to this new execution context and go throw the code of SayHello() line by line.
+obj.sayName.call(obj2) // Output: Bob
+```
 
-![Maple](/static/images/js-part1/3.png)
+In this example, we are calling the sayName method on the obj object and passing in obj2 as the value for this. This means that when the sayName method is called, this.name will be equal to "Bob".
 
-# 3. CallBacks, CallBack Queue and Event Loop ➿
+# 3. apply()
 
-Javascript is a single thread language it can’t handle many operations in the same time but what makes it very powerful is its asynchronous nature this is mean that javascript when executing an asynchronous operation didn’t wait for the result of this operation because waiting the result of an asynchronous code will make it a slow language (example get data from database). So the idea is to run any asynchronous code without waiting for the result and jump to the next line when the result is ready javascript gets it using callBack functions. To simplify, a callback function is a normal function gets executed when an asynchronous operation is done in order to get or manipulate the result.
+The apply() method is similar to call(), but it allows you to pass in an array of arguments. To use apply(), you pass in the value you want this to reference and an array of arguments for the function.
 
-But the question now is where javascript stores these callback functions and how can it manage their order?. The answer is CallBack Queue basically it is a simple queue (first in last out) used just to store callback functions until the asynchronous operation is done.
+```js
+let numbers = [1, 2, 3]
+console.log(Math.max.apply(null, numbers)) // Output: 3
+```
 
-![Maple](/static/images/js-part1/4.png)
+In this example, we are using the apply() method to call the Math.max function and passing in an array of numbers as the arguments. The first argument is null because we don't need to set the value of this.
 
-In this example, we have an asynchronous function called getUserDataFromApi this function will take 1 second to get the data I used setTimout function to simulate the real HTTP request, to get the result I passed a callBack function called ShowUserData takes userdata as an argument and console log it.
+# Summary
 
-Let’s what will happen when the thread of execution runs the function getUserdataFromApi() at line 13 :
-
-![Maple](/static/images/js-part1/5.png)
-
-When the thread arrives at line 8 getUserdataFromApi() will be pushed into the Call Stack, a brain new execution context will be created, and the callBack function ShowuserData will be pushed into CallBack Queue.
-
-javascript will not wait 1 sec for the result, but it will remove getUserdataFromApi() from the call stack and go back to global to execute the next line and console log the number 2.
-
-After 1sec the result will be done and the call stack will be empty then javascript will remove ShowUserData() and push it into the call stack and a brain new execution context will be created.
-
-![Maple](/static/images/js-part1/6.png)
-
-There is an important information you need to know that any function in the callback queue will be pushed into the call stack just when this call stack is empty, but the question is how javascript will know if the stack is empty or not?
-
-Here we introduce the Event Loop, which is responsible for checking if the stack is empty or not. If the call stack is not empty even after 2 sec, the ShowUserData will wait for more time.
-
-The output of our example will be :
-
-1
-
-2
-
-user data
+In summary, bind(), call(), and apply() are powerful tools in JavaScript that allow you to set the value of this inside a function. bind() creates a new function with a permanently bound this value, call() is used to call a function with a specific value for this, and apply() is used to call a function with a specific value for this and pass in an array of arguments. Knowing when to use each of these methods can help you write more efficient and maintainable code.

@@ -9,4 +9,6 @@ linkedin: https://www.linkedin.com/in/ridha-mezrigui-205010177/
 github: https://github.com/ridhamz
 ---
 
-Software Engineer passionate and highly familiar with JavaScript technologies, and Cloud engineering.
+Full Stack JavaScript and Cloud Engineer with 2 years of experience designing and developing scalable web applications using microservices architecture and serverless technologies.
+
+Experienced in JavaScript, Go, TypeScript, Node.js, React.js, and AWS. Proven ability to work in Agile methodologies and collaborate with cross-functional teams.
